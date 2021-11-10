@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Shop </title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<style>
+    .img-cover{
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+     transition: 5s;
+    }
+
+    .img-cover img{
+    transition: 2s;
+    }
+
+    .box:hover .img-cover img {
+     transform: rotate(20deg);
+    }
+</style>
+
+
+</head>
+<body>
+<img src="/static/l.jpg" width="80px" alt="no ddd">
+
+<div class="container">
+    <div class="">
+        <form method="get">
+            <input type="search" class="form-control" name="skey" placeholder="Enter Product Name">
+            <br>
+            <input type="submit" value="search" class="btn btn-primary">
+        </form>
+    </div>
+    <div class="row my-4">
+        <div class="col-md-3">
+            <select class="form-control">
+                <option>Select Main Category</option>
+               {% for mcat in maincat%}
+                <option>{{mcat.name}}</option>
+                {% endfor%}
+            </select>
+        </div>
+        <div class="col-md-3">
+            <select class="form-control">
+                <option>Select Sub Category</option>
+                {% for scat in subcat%}
+                <option>{{scat.name}}</option>
+                {% endfor%}
+            </select>
+
+        </div>
+    </div>
+
+    <div class="row">
+        {% for p in records %}
+        <div class="col-md-3">
+            <div class="box shadow p-3 mb-5 bg-white rounded">
+                <div class="img-cover">
+                    <img src="/media/{{p.pro_image}}">
+                </div>
+                <div class="data p-2 mt-4">
+                    <h6><a href="/details/{{p.id}}/" target="_blank">{{p.pro_name}}</a> </h6>
+                        <strong class="text-bold"> &#X20B9;. {{p.price}}/-</strong>
+                    <div class="my-2">
+                        <a href="" class="btn btn-primary">Add to Cart</a>
+                        <a href="" class="btn btn-danger">Buy Now</a>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+        {% endfor%}
+    </div>
+
+
+</div>
+</body>
+</html>
+
+
+
+
+

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+</head>
+<body>
+<img src="/static/l.jpg" width="80px" alt="no ddd">
+    <div class="container">
+    <div class="row">
+        <div class="col-md-4 bg-info">
+            <img src="/media/{{p.pro_image}}">
+        </div>
+        <div class="col-md-6 bg-light">
+            <h4>{{p.pro_name}}</h4>
+            <p>
+                {% autoescape off %}
+                {{p.desc}}
+                {% endautoescape %}
+            </p>
+        </div>
+    </div>
+</div>
+</body>
+</html>
