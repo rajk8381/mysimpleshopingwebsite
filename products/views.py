@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 # select * from product
 # ORM
 # Product.objects.all() # Queryset[]
@@ -7,6 +7,10 @@ from django.shortcuts import render
 # Create your views here.
 from .models import Product,MainCat,SubCat
 def home(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+
+
     p = Product.objects.all()
     if "skey" in request.GET:
         serkey=request.GET.get('skey')
@@ -45,9 +49,53 @@ def new_user(request):
             if u:
                 u.first_name=first_name
                 u.last_name="Sharma"
-                u.is_staff=True
                 u.save()
                 mydict['error'] = "New User Created"
             print(uname,passw,rpassw)
 
     return render(request,'new_user.html',mydict)
+
+from django.contrib.auth import authenticate,login,logout
+def login_view(request):
+    if request.user.is_authenticated:
+        return redirect('/')
+    mydict={}
+    if request.method=="POST":
+        username1 =request.POST.get('uname')
+        password1 =request.POST.get('passw')
+        u =authenticate(username=username1,password=password1)
+        if u:
+            login(request,u)
+            return redirect('/')
+        else:
+            mydict['error'] ="Username and Password invalid"
+            print("user name not match")
+    return render(request,'login.html',mydict)
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('login')
+
+
+def product_edit(request,id=None):
+    mydict={}
+    p =Product.objects.get(pk=id)
+    mydict['p']=p
+
+    if request.method=="POST":
+        image =request.FILES.get('image')
+        pname =request.POST.get('pname')
+        print(image.name.endswith(".jpg") or image.name.endswith(".png"))
+
+        p =Product.objects.get(pk=id)
+        p.pro_name=pname
+        p.pro_image=image
+        p.save()
+
+        # Product.objects.filter(pk=id).update(pro_name=pname,pro_image=image)
+
+        return redirect('/')
+
+
+    return render(request,'editpro.html',mydict)
